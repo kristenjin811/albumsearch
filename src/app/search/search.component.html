@@ -1,8 +1,16 @@
-<h2>Products</h2>
+<input type="text" placeholder="Enter artist name" [(ngModel)]="artistName" name="artistName">
+<button (click)="searchAlbums()">Search</button>
+<div *ngIf="loading" class="loading">Loading...</div>
 
-
-<!-- 
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
--->
+<div *ngIf="albums.length > 0" class="album-list">
+  <div class="card-container">
+    <div *ngFor="let album of albums" class="card">
+      <img [src]="album.artworkUrl100" alt="{{ album.collectionName }}">
+      <div class="card-content">
+        <h3>{{ album.collectionName }}</h3>
+        <p>{{ album.artistName }}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="albums.length === 0 && !loading" class="no-results">No albums found.</div>
+</div>

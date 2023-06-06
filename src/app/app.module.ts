@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { SearchComponent } from './search/search.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import { SearchComponent } from './search/search.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: SearchComponent },
-    ])
+    ]),
+    FormsModule,
+    HttpClientModule
   ],
   declarations: [
     AppComponent,

@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
-import { products } from '../products';
+interface Album {
+  collectionName: string;
+  artistName: string;
+  artworkUrl100: string;
+}
 
 @Component({
   selector: 'app-search',
@@ -8,10 +14,31 @@ import { products } from '../products';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-  products = [...products];
+  artistName: string = '';
+  albums: Album[] = [];
+  loading: boolean = false;
 
-  share() {
-    window.alert('The product has been shared!');
+  constructor(private http: HttpClient) { }
+
+  searchAlbums() {
+    if (this.artistName.trim() === '') {
+      return;
+    }
+
+    const apiUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(this.artistName)}&media=music&entity=album&attribute=artistTerm&limit=50`;
+    this.loading = true;
+
+    this.http.get(apiUrl)
+      .subscribe(
+        (data: any) => {
+          this.albums = data.results;
+          this.loading = false;
+        },
+        error => {
+          console.log('Error fetching albums:', error);
+          this.loading = false;
+        }
+      );
   }
 }
 
